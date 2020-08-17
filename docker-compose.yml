@@ -1,0 +1,137 @@
+version: '3'
+services:
+  # nginx:
+  #   image: nginx:v1
+  #   build:
+  #     context: .
+  #     dockerfile: dockerfile-nginx
+  #     args:
+  #       install_path: /usr/local/nginx
+  #       extra_package: vim lrzsz
+  #   container_name: nginx
+  #   networks:
+  #     devnet:
+  #   ports:
+  #     - "80:80"
+  #     - "9990-9999:9990-9999"
+  #   volumes:
+  #     - "/Users/liangbincheng/project:/home/wwwroot"
+  #   depends_on:
+  #     - "php73"
+  #   command:
+  #     - /usr/sbin/init
+  #   privileged: true
+  #   restart: always
+
+  nginx:
+    image: nginx:1.18.0-alpine
+    container_name: nginx
+    networks:
+      devnet:
+    ports:
+      - "80:80"
+      - "9990-9999:9990-9999"
+    volumes:
+      - G:/docker-env/nginx/conf:/etc/nginx
+      - G:/docker-env/nginx/logs:/var/log/nginx
+      - G:/projects:/home/wwwroot
+    depends_on:
+      - "php73"
+    restart: always
+
+  httpd:
+    image: httpd:2.4-alpine
+    container_name: httpd
+    networks:
+      devnet:
+    ports:
+      - 8080:8080
+    volumes:
+      - G:/docker-env/apache2/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - G:/docker-env/apache2/conf/vhosts:/usr/local/apache2/conf/vhosts
+      - G:/projects:/home/wwwroot
+    restart: always
+
+  php56:
+    image: php56:v1
+    build:
+      context: .
+      dockerfile: dockerfile-php56
+      args:
+        install_path: /usr/local/php
+        extra_packages: vim lrzsz git
+    container_name: php56
+    networks:
+      devnet:
+    expose:
+      - "9000"
+    volumes:
+      - "G:/projects:/home/wwwroot"
+    command:
+      - /usr/sbin/init
+    privileged: true
+    restart: always
+
+  php73:
+    image: php73:v1
+    build:
+      context: .
+      dockerfile: dockerfile-php73
+      args:
+        install_path: /usr/local/php
+        extra_packages: vim lrzsz git
+    container_name: php73
+    networks:
+      devnet:
+    expose:
+      - "9000"
+    volumes:
+      - "G:/projects:/home/wwwroot"
+    command:
+      - /usr/sbin/init
+    privileged: true
+    restart: always
+
+  mysql:
+    container_name: mysql
+    image: "mysql:5.6"
+    networks:
+      devnet:
+    environment:
+        MYSQL_ROOT_PASSWORD: "123456"
+        MYSQL_ROOT_HOST: "%"
+    volumes:
+        - G:/docker-env/mysql/data:/var/lib/mysql
+        - G:/docker-env/mysql/conf:/etc/mysql/conf.d
+    ports:
+        - "3306:3306"
+    restart: always
+
+  centos:
+    container_name: centos
+    image: "centos:7.6.1810"
+    networks:
+      devnet:
+    ports:
+        - "9950-9969:9950-9969"
+    command:
+      - /usr/sbin/init
+    privileged: true
+    restart: always
+
+
+  redis: 
+    image: redis:4.0.8-alpine
+    container_name: redis
+    restart: always
+    ports:
+      - 6379:6379
+    networks:
+      devnet:
+    volumes:
+      - G:/docker-env/redis/config:/etc/redis/config
+      - G:/docker-env/redis/data:/data
+    command: redis-server /etc/redis/config/redis.conf
+
+networks:
+  devnet:

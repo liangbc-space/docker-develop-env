@@ -1,0 +1,61 @@
+# 基础镜像
+FROM centos:7.6.1810
+
+# 编写者
+LABEL maintainer="lbc346093@163.com"
+
+# 拷贝必要文件
+COPY service/nginx.service /lib/systemd/system/
+ADD resource/nginx/nginx-*.tar.* /tmp
+COPY resource/nginx/conf /tmp/conf
+
+# nginx安装目录
+ARG install_path
+# 系统包  如vim、lrzsz等
+ARG extra_package
+
+RUN yum install -y wget \
+    $extra_package \
+	# 切换镜像源
+	&& cd /etc/yum.repos.d \
+	&& wget http://mirrors.aliyun.com/repo/Centos-7.repo https://mirrors.aliyun.com/repo/epel-7.repo \
+	&& mv Centos-7.repo CentOS-Base.repo && yum clean all  &&  yum makecache \
+	# 安装一系列乱七八糟的依赖包
+	&& yum install -y gcc gcc-c++ glibc make autoconf openssl openssl-devel libxslt-devel gd gd-devel \
+	GeoIP GeoIP-devel pcre pcre-devel \
+	# 创建用户
+	&& useradd -M -s /sbin/nologin www \
+	# 编译安装
+	&& cd /tmp && cp -r nginx-* nginx && cd nginx \
+	&& ./configure \
+	--user=www \
+	--group=www \
+	--prefix=$install_path \
+	--with-file-aio \
+    --with-http_ssl_module \
+    --with-http_realip_module \
+    --with-http_addition_module \
+    --with-http_xslt_module \
+	--with-http_image_filter_module \
+	--with-http_geoip_module \
+	--with-http_sub_module \
+	--with-http_dav_module \
+	--with-http_flv_module \
+	--with-http_mp4_module \
+	--with-http_gunzip_module \
+	--with-http_gzip_static_module \
+	--with-http_auth_request_module \
+	--with-http_random_index_module \
+	--with-http_stub_status_module \
+	&& make && make install \
+	# 拷贝nginx配置文件
+	&& cd /tmp && cp -rf conf $install_path \
+	# nginx开机自启
+	&& systemctl enable nginx.service \
+	# 环境变量设置
+	&& echo "export PATH=$PATH:$install_path/sbin" >> /etc/profile \
+	&& echo "source /etc/profile" >>  /etc/bashrc \
+	# 删除无用的文件，使镜像文件足够小
+	&& yum clean all && rm -rf /tmp/*
+
+WORKDIR /
