@@ -11,7 +11,6 @@ services:
   zookeeper1:
     image: zookeeper
     container_name: zookeeper1
-    hostname: zookeeper1
     restart: unless-stopped
     ports:
       - 2181:2181
@@ -61,9 +60,9 @@ services:
       - "zookeeper1"
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ADVERTISED_HOST_NAME: 192.168.31.127                  ## 宿主机IP
-      KAFKA_ADVERTISED_PORT: 9092                                 ## 宿主机映射port
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.31.127:9092    ## 绑定发布订阅的端口
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_ADVERTISED_HOST_NAME: kafka1                  ## 宿主机IP
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka1:9092    ## 绑定发布订阅的端口
       #      KAFKA_ZOOKEEPER_CONNECT: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181"
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper1:2181"
     volumes:
@@ -79,9 +78,9 @@ services:
 #      - "zookeeper1"
 #    environment:
 #      KAFKA_BROKER_ID: 2
-#      KAFKA_ADVERTISED_HOST_NAME: 192.168.31.127                  ## 宿主机IP
-#      KAFKA_ADVERTISED_PORT: 9093                                 ## 宿主机映射port
-#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.31.127:9093    ## 绑定发布订阅的端口
+#      KAFKA_ADVERTISED_PORT: 9092
+#      KAFKA_ADVERTISED_HOST_NAME: kafka2                  ## 宿主机IP
+#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka2:9092    ## 绑定发布订阅的端口
 #      KAFKA_ZOOKEEPER_CONNECT: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181"
 #    volumes:
 #      - "D:/docker-dev/docker-env/kafka/kafka2/data:/kafka"
@@ -96,9 +95,9 @@ services:
 #      - "zookeeper1"
 #    environment:
 #      KAFKA_BROKER_ID: 3
-#      KAFKA_ADVERTISED_HOST_NAME: 192.168.31.127                  ## 宿主机IP
-#      KAFKA_ADVERTISED_PORT: 9094                                 ## 宿主机映射port
-#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.31.127:9094    ## 绑定发布订阅的端口
+#      KAFKA_ADVERTISED_PORT: 9092
+#      KAFKA_ADVERTISED_HOST_NAME: kafka3                  ## 宿主机IP
+#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka3:9092    ## 绑定发布订阅的端口
 #      KAFKA_ZOOKEEPER_CONNECT: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181"
 #    volumes:
 #      - "D:/docker-dev/docker-env/kafka/kafka3/data:/kafka"
