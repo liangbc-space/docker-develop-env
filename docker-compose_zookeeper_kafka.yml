@@ -1,6 +1,6 @@
 version: '3'
 
-# 创建虚拟网络    docker network create --driver bridge $network
+#设置默认虚拟网桥
 networks:
   default:
     external:
