@@ -1,0 +1,105 @@
+version: '3'
+
+# 创建虚拟网络    docker network create --driver bridge $network
+networks:
+  default:
+    external:
+      name: docker_dev_devnet
+
+services:
+
+  zookeeper1:
+    image: zookeeper
+    container_name: zookeeper1
+    hostname: zookeeper1
+    restart: unless-stopped
+    ports:
+      - 2181:2181
+    #    environment:
+    #      ZOO_MY_ID: 1
+    #      ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=zookeeper2:2888:3888;2181 server.3=zookeeper3:2888:3888;2181
+    volumes:
+      - "D:/docker-dev/docker-env/zookeeper/zookeeper1/data:/data"
+      - "D:/docker-dev/docker-env/zookeeper/zookeeper1/datalog:/datalog"
+
+  #  zookeeper2:
+  #    image: zookeeper
+  #    container_name: zookeeper2
+  #    hostname: zookeeper2
+  #    restart: unless-stopped
+  #    ports:
+  #      - 2182:2181
+  #    environment:
+  #      ZOO_MY_ID: 2
+  #      ZOO_SERVERS: server.1=zookeeper1:2888:3888;2181 server.2=0.0.0.0:2888:3888;2181 server.3=zookeeper3:2888:3888;2181
+  #    volumes:
+  #      - "D:/docker-dev/docker-env/zookeeper/zookeeper2/data:/data"
+  #      - "D:/docker-dev/docker-env/zookeeper/zookeeper2/datalog:/datalog"
+  #
+  #  zookeeper3:
+  #    image: zookeeper
+  #    container_name: zookeeper3
+  #    hostname: zookeeper3
+  #    restart: unless-stopped
+  #    ports:
+  #      - 2183:2181
+  #    environment:
+  #      ZOO_MY_ID: 3
+  #      ZOO_SERVERS: server.1=zookeeper1:2888:3888;2181 server.2=zookeeper2:2888:3888;2181 server.3=0.0.0.0:2888:3888;2181
+  #    volumes:
+  #      - "D:/docker-dev/docker-env/zookeeper/zookeeper3/data:/data"
+  #      - "D:/docker-dev/docker-env/zookeeper/zookeeper3/datalog:/datalog"
+
+
+  kafka1:
+    image: wurstmeister/kafka
+    restart: unless-stopped
+    container_name: kafka1
+    ports:
+      - "9092:9092"
+    depends_on:
+      - "zookeeper1"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.31.127                  ## 宿主机IP
+      KAFKA_ADVERTISED_PORT: 9092                                 ## 宿主机映射port
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.31.127:9092    ## 绑定发布订阅的端口
+      #      KAFKA_ZOOKEEPER_CONNECT: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181"
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper1:2181"
+    volumes:
+      - "D:/docker-dev/docker-env/kafka/kafka1/data:/kafka"
+
+#  kafka2:
+#    image: wurstmeister/kafka
+#    restart: unless-stopped
+#    container_name: kafka2
+#    ports:
+#      - "9093:9092"
+#    depends_on:
+#      - "zookeeper1"
+#    environment:
+#      KAFKA_BROKER_ID: 2
+#      KAFKA_ADVERTISED_HOST_NAME: 192.168.31.127                  ## 宿主机IP
+#      KAFKA_ADVERTISED_PORT: 9093                                 ## 宿主机映射port
+#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.31.127:9093    ## 绑定发布订阅的端口
+#      KAFKA_ZOOKEEPER_CONNECT: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181"
+#    volumes:
+#      - "D:/docker-dev/docker-env/kafka/kafka2/data:/kafka"
+#
+#  kafka3:
+#    image: wurstmeister/kafka
+#    restart: unless-stopped
+#    container_name: kafka3
+#    ports:
+#      - "9094:9092"
+#    depends_on:
+#      - "zookeeper1"
+#    environment:
+#      KAFKA_BROKER_ID: 3
+#      KAFKA_ADVERTISED_HOST_NAME: 192.168.31.127                  ## 宿主机IP
+#      KAFKA_ADVERTISED_PORT: 9094                                 ## 宿主机映射port
+#      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://192.168.31.127:9094    ## 绑定发布订阅的端口
+#      KAFKA_ZOOKEEPER_CONNECT: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181"
+#    volumes:
+#      - "D:/docker-dev/docker-env/kafka/kafka3/data:/kafka"
+
