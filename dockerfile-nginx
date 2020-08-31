@@ -14,8 +14,10 @@ ARG install_path
 # 系统包  如vim、lrzsz等
 ARG extra_package
 
-RUN yum install -y wget \
-    $extra_package \
+RUN yum install -y wget $extra_package \
+	# 时区设置
+    && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo "Asia/Shanghai" >> /etc/timezone \
 	# 切换镜像源
 	&& cd /etc/yum.repos.d \
 	&& wget http://mirrors.aliyun.com/repo/Centos-7.repo https://mirrors.aliyun.com/repo/epel-7.repo \

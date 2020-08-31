@@ -1,0 +1,29 @@
+version: '3'
+
+#设置默认虚拟网桥
+networks:
+  default:
+    external:
+      name: docker_dev_devnet
+
+services:
+
+  go:
+    image: golang:v1
+    build:
+      context: .
+      dockerfile: dockerfile-golang
+      args:
+        golang_version: "1.15"
+        install_path: "/usr/local/golang"
+        gopath: "/go"
+        extra_packages: "vim lrzsz git"
+    container_name: go
+    ports:
+      - "8000:8080"
+    volumes:
+      - "D:/go/src:/go/src"
+    command:
+      - /usr/sbin/init
+    privileged: true
+    restart: unless-stopped

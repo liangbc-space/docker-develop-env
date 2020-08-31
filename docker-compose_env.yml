@@ -17,9 +17,9 @@ services:
       - "80:80"
       - "9990-9999:9990-9999"
     volumes:
-      - G:/docker-env/nginx/conf:/etc/nginx
-      - G:/docker-env/nginx/logs:/var/log/nginx
-      - G:/projects:/home/wwwroot
+      - "G:/docker-env/nginx/conf:/etc/nginx"
+      - "G:/docker-env/nginx/logs:/var/log/nginx"
+      - "G:/projects:/home/wwwroot"
     depends_on:
       - "php73"
     restart: unless-stopped
@@ -28,11 +28,11 @@ services:
     image: httpd:2.4-alpine
     container_name: httpd
     ports:
-      - 8080:8080
+      - "8080:8080"
     volumes:
-      - G:/docker-env/apache2/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
-      - G:/docker-env/apache2/conf/vhosts:/usr/local/apache2/conf/vhosts
-      - G:/projects:/home/wwwroot
+      - "G:/docker-env/apache2/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf"
+      - "G:/docker-env/apache2/conf/vhosts:/usr/local/apache2/conf/vhosts"
+      - "G:/projects:/home/wwwroot"
     restart: unless-stopped
 
   php56:
@@ -41,8 +41,8 @@ services:
       context: .
       dockerfile: dockerfile-php56
       args:
-        install_path: /usr/local/php
-        extra_packages: vim lrzsz git
+        install_path: "/usr/local/php"
+        extra_packages: "vim lrzsz git"
     container_name: php56
     expose:
       - "9000"
@@ -59,9 +59,9 @@ services:
       context: .
       dockerfile: dockerfile-php73
       args:
-        install_path: /usr/local/php
-        extra_packages: vim lrzsz git
-    container_name: php73
+        install_path: "/usr/local/php"
+        extra_packages: "vim lrzsz git"
+    container_name: "php73"
     expose:
       - "9000"
     volumes:
@@ -78,8 +78,8 @@ services:
       MYSQL_ROOT_PASSWORD: "123456"
       MYSQL_ROOT_HOST: "%"
     volumes:
-      - G:/docker-env/mysql/data:/var/lib/mysql
-      - G:/docker-env/mysql/conf:/etc/mysql/conf.d
+      - "G:/docker-env/mysql/data:/var/lib/mysql"
+      - "G:/docker-env/mysql/conf:/etc/mysql/conf.d"
     ports:
       - "3306:3306"
     restart: unless-stopped
@@ -89,10 +89,10 @@ services:
     container_name: redis
     restart: unless-stopped
     ports:
-      - 6379:6379
+      - "6379:6379"
     volumes:
-      - G:/docker-env/redis/config:/etc/redis/config
-      - G:/docker-env/redis/data:/data
+      - "G:/docker-env/redis/config:/etc/redis/config"
+      - "G:/docker-env/redis/data:/data"
     command: redis-server /etc/redis/config/redis.conf
 
 

@@ -1,0 +1,40 @@
+# 基础镜像
+FROM centos:7.6.1810
+
+# 编写者
+LABEL maintainer="lbc346093@163.com"
+
+# golang版本
+ARG golang_version
+
+# 安装目录
+ARG install_path
+# gopath目录
+ARG gopath
+
+# 系统包   如vim、lrzsz等
+ARG extra_packages=vim
+
+RUN yum install -y wget $extra_packages \
+    # 时区设置
+    && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo "Asia/Shanghai" >> /etc/timezone \
+    # 切换镜像源
+    && cd /etc/yum.repos.d \
+    && wget http://mirrors.aliyun.com/repo/Centos-7.repo https://mirrors.aliyun.com/repo/epel-7.repo \
+    && mv Centos-7.repo CentOS-Base.repo && yum clean all  &&  yum makecache \
+    # 下载安装包
+    && cd /tmp && wget -c https://golang.google.cn/dl/go$golang_version.linux-amd64.tar.gz \
+    # 解压源码包到制定安装位置
+    && tar zxvf go$golang_version.linux-amd64.tar.gz && mv go $install_path \
+	# 环境变量设置
+	&& echo "export GOPATH=$gopath" >> /etc/profile \
+	&& echo "export GOROOT=$install_path" >> /etc/profile \
+	&& echo 'export PATH=$PATH:$GOROOT/bin' >> /etc/profile \
+	&& echo "source /etc/profile" >> /etc/bashrc && source /etc/bashrc \
+	# 代理
+	&& go env -w GO111MODULE=on && go env -w GOPROXY=https://goproxy.cn,direct \
+	# 删除无用的文件，使镜像文件足够小
+	&& yum clean all && rm -rf /tmp/*
+
+WORKDIR /
