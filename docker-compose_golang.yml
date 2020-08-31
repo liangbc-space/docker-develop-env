@@ -8,7 +8,7 @@ networks:
 
 services:
 
-  go:
+  golang:
     image: golang:v1
     build:
       context: .
@@ -18,7 +18,7 @@ services:
         install_path: "/usr/local/golang"
         gopath: "/go"
         extra_packages: "vim lrzsz git"
-    container_name: go
+    container_name: golang
     ports:
       - "8000:8080"
     volumes:

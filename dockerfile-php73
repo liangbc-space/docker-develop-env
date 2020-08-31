@@ -21,7 +21,7 @@ RUN yum install -y wget $extra_packages \
 	&& cd /etc/yum.repos.d \
 	&& wget http://mirrors.aliyun.com/repo/Centos-7.repo https://mirrors.aliyun.com/repo/epel-7.repo \
 	&& mv Centos-7.repo CentOS-Base.repo && yum clean all  &&  yum makecache \
-	# 安装一系列乱七八糟的依赖包
+	# 安装基于系统的一些依赖
     && yum install -y gcc gcc-c++ glibc make autoconf openssl openssl-devel libxslt-devel gd gd-devel \
     pcre pcre-devel epel-release \
 	# 创建用户
