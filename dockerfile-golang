@@ -1,5 +1,5 @@
 # 基础镜像
-FROM centos:7.6.1810
+FROM centos:7
 
 # 编写者
 LABEL maintainer="lbc346093@163.com"

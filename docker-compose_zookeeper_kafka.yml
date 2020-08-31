@@ -4,7 +4,7 @@ version: '3'
 networks:
   default:
     external:
-      name: docker_dev_devnet
+      name: network-commom
 
 services:
 
@@ -14,40 +14,39 @@ services:
     restart: unless-stopped
     ports:
       - 2181:2181
-    #    environment:
-    #      ZOO_MY_ID: 1
-    #      ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=zookeeper2:2888:3888;2181 server.3=zookeeper3:2888:3888;2181
-    volumes:
-      - "D:/docker-dev/docker-env/zookeeper/zookeeper1/data:/data"
-      - "D:/docker-dev/docker-env/zookeeper/zookeeper1/datalog:/datalog"
+    environment:
+#      ZOO_MY_ID: 1
+#      ZOO_SERVERS: server.1=0.0.0.0:2888:3888;2181 server.2=zookeeper2:2888:3888;2181 server.3=zookeeper3:2888:3888;2181
+      TZ: "Asia/Shanghai"
+#    volumes:
+#      - "D:/docker-dev/docker-env/zookeeper/zookeeper1/data:/data"
+#      - "D:/docker-dev/docker-env/zookeeper/zookeeper1/datalog:/datalog"
 
-  #  zookeeper2:
-  #    image: zookeeper
-  #    container_name: zookeeper2
-  #    hostname: zookeeper2
-  #    restart: unless-stopped
-  #    ports:
-  #      - 2182:2181
-  #    environment:
-  #      ZOO_MY_ID: 2
-  #      ZOO_SERVERS: server.1=zookeeper1:2888:3888;2181 server.2=0.0.0.0:2888:3888;2181 server.3=zookeeper3:2888:3888;2181
-  #    volumes:
-  #      - "D:/docker-dev/docker-env/zookeeper/zookeeper2/data:/data"
-  #      - "D:/docker-dev/docker-env/zookeeper/zookeeper2/datalog:/datalog"
-  #
-  #  zookeeper3:
-  #    image: zookeeper
-  #    container_name: zookeeper3
-  #    hostname: zookeeper3
-  #    restart: unless-stopped
-  #    ports:
-  #      - 2183:2181
-  #    environment:
-  #      ZOO_MY_ID: 3
-  #      ZOO_SERVERS: server.1=zookeeper1:2888:3888;2181 server.2=zookeeper2:2888:3888;2181 server.3=0.0.0.0:2888:3888;2181
-  #    volumes:
-  #      - "D:/docker-dev/docker-env/zookeeper/zookeeper3/data:/data"
-  #      - "D:/docker-dev/docker-env/zookeeper/zookeeper3/datalog:/datalog"
+
+#  zookeeper2:
+#    image: zookeeper
+#    container_name: zookeeper2
+#    hostname: zookeeper2
+#    restart: unless-stopped
+#    ports:
+#      - 2182:2181
+#    environment:
+#      ZOO_MY_ID: 2
+#      ZOO_SERVERS: server.1=zookeeper1:2888:3888;2181 server.2=0.0.0.0:2888:3888;2181 server.3=zookeeper3:2888:3888;2181
+#      TZ: "Asia/Shanghai"
+#
+#
+#  zookeeper3:
+#    image: zookeeper
+#    container_name: zookeeper3
+#    hostname: zookeeper3
+#    restart: unless-stopped
+#    ports:
+#      - 2183:2181
+#    environment:
+#      ZOO_MY_ID: 3
+#      ZOO_SERVERS: server.1=zookeeper1:2888:3888;2181 server.2=zookeeper2:2888:3888;2181 server.3=0.0.0.0:2888:3888;2181
+#      TZ: "Asia/Shanghai"
 
 
   kafka1:
@@ -63,10 +62,11 @@ services:
       KAFKA_ADVERTISED_PORT: 9092
       KAFKA_ADVERTISED_HOST_NAME: kafka1                  ## 宿主机IP
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka1:9092    ## 绑定发布订阅的端口
-      #      KAFKA_ZOOKEEPER_CONNECT: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181"
+#      KAFKA_ZOOKEEPER_CONNECT: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181"
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper1:2181"
-    volumes:
-      - "D:/docker-dev/docker-env/kafka/kafka1/data:/kafka"
+      TZ: "Asia/Shanghai"
+#    volumes:
+#      - "D:/docker-dev/docker-env/kafka/kafka1/data:/kafka"
 
 #  kafka2:
 #    image: wurstmeister/kafka
@@ -82,8 +82,8 @@ services:
 #      KAFKA_ADVERTISED_HOST_NAME: kafka2                  ## 宿主机IP
 #      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka2:9092    ## 绑定发布订阅的端口
 #      KAFKA_ZOOKEEPER_CONNECT: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181"
-#    volumes:
-#      - "D:/docker-dev/docker-env/kafka/kafka2/data:/kafka"
+#      TZ: "Asia/Shanghai"
+#
 #
 #  kafka3:
 #    image: wurstmeister/kafka
@@ -99,6 +99,5 @@ services:
 #      KAFKA_ADVERTISED_HOST_NAME: kafka3                  ## 宿主机IP
 #      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka3:9092    ## 绑定发布订阅的端口
 #      KAFKA_ZOOKEEPER_CONNECT: "zookeeper1:2181,zookeeper2:2181,zookeeper3:2181"
-#    volumes:
-#      - "D:/docker-dev/docker-env/kafka/kafka3/data:/kafka"
+#      TZ: "Asia/Shanghai"
 

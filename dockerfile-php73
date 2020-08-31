@@ -1,5 +1,5 @@
 # 基础镜像
-FROM centos:7.6.1810
+FROM centos:7
 
 # 编写者
 LABEL maintainer="lbc346093@163.com"
@@ -80,10 +80,10 @@ RUN yum install -y wget $extra_packages \
 	# 开机自启
 	&& systemctl enable php.service \
 	# 环境变量设置
-	&& echo "export PATH=$PATH:$install_path/bin" >> /etc/profile \
-	&& echo "source /etc/profile" >>  /etc/bashrc \
+	&& echo 'export PATH=$PATH':"$install_path/bin" >> /etc/bashrc \
+	&& source /etc/bashrc \
 	# composer安装
-	&& curl -sS https://getcomposer.org/installer | $install_path/bin/php \
+	&& curl -sS https://getcomposer.org/installer | php \
 	&& mv composer.phar /usr/local/bin/composer \
 	&& yum install -y zip unzip \
 	# 删除无用的文件，使镜像文件足够小

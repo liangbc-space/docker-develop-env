@@ -4,7 +4,7 @@ version: '3'
 networks:
   default:
     external:
-      name: docker_dev_devnet
+      name: network-commom
 
 services:
 
@@ -22,7 +22,9 @@ services:
     ports:
       - "8000:8080"
     volumes:
-      - "D:/go/src:/go/src"
+      - "/Users/liangbincheng/go/src:/go/src"
+    environment:
+      TZ: "Asia/Shanghai"
     command:
       - /usr/sbin/init
     privileged: true

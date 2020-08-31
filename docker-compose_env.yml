@@ -4,7 +4,7 @@ version: '3'
 networks:
   default:
     external:
-      name: docker_dev_devnet
+      name: network-commom
 
 services:
 
@@ -15,11 +15,12 @@ services:
     #      devnet:
     ports:
       - "80:80"
-      - "9990-9999:9990-9999"
     volumes:
-      - "G:/docker-env/nginx/conf:/etc/nginx"
-      - "G:/docker-env/nginx/logs:/var/log/nginx"
-      - "G:/projects:/home/wwwroot"
+      - "/Users/liangbincheng/docker-develop-env/docker-env/nginx/conf:/etc/nginx"
+      - "/Users/liangbincheng/docker-develop-env/docker-env/nginx/logs:/var/log/nginx"
+      - "/Users/liangbincheng/project:/home/wwwroot"
+    environment:
+      TZ: "Asia/Shanghai"
     depends_on:
       - "php73"
     restart: unless-stopped
@@ -30,9 +31,11 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - "G:/docker-env/apache2/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf"
-      - "G:/docker-env/apache2/conf/vhosts:/usr/local/apache2/conf/vhosts"
-      - "G:/projects:/home/wwwroot"
+      - "/Users/liangbincheng/docker-develop-env/docker-env/apache2/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf"
+      - "/Users/liangbincheng/docker-develop-env/docker-env/apache2/conf/vhosts:/usr/local/apache2/conf/vhosts"
+      - "/Users/liangbincheng/project:/home/wwwroot"
+    environment:
+      TZ: "Asia/Shanghai"
     restart: unless-stopped
 
   php56:
@@ -47,7 +50,9 @@ services:
     expose:
       - "9000"
     volumes:
-      - "G:/projects:/home/wwwroot"
+      - "/Users/liangbincheng/project:/home/wwwroot"
+    environment:
+      TZ: "Asia/Shanghai"
     command:
       - /usr/sbin/init
     privileged: true
@@ -65,7 +70,9 @@ services:
     expose:
       - "9000"
     volumes:
-      - "G:/projects:/home/wwwroot"
+      - "/Users/liangbincheng/project:/home/wwwroot"
+    environment:
+      TZ: "Asia/Shanghai"
     command:
       - /usr/sbin/init
     privileged: true
@@ -77,9 +84,10 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: "123456"
       MYSQL_ROOT_HOST: "%"
+      TZ: "Asia/Shanghai"
     volumes:
-      - "G:/docker-env/mysql/data:/var/lib/mysql"
-      - "G:/docker-env/mysql/conf:/etc/mysql/conf.d"
+      - "/Users/liangbincheng/docker-develop-env/docker-env/mysql/data:/var/lib/mysql"
+      - "/Users/liangbincheng/docker-develop-env/docker-env/mysql/conf:/etc/mysql/conf.d"
     ports:
       - "3306:3306"
     restart: unless-stopped
@@ -91,8 +99,10 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - "G:/docker-env/redis/config:/etc/redis/config"
-      - "G:/docker-env/redis/data:/data"
+      - "/Users/liangbincheng/docker-develop-env/docker-env/redis/config:/etc/redis/config"
+      - "/Users/liangbincheng/docker-develop-env/docker-env/redis/data:/data"
+    environment:
+      TZ: "Asia/Shanghai"
     command: redis-server /etc/redis/config/redis.conf
 
 
@@ -113,6 +123,8 @@ services:
 #      - "/Users/liangbincheng/project:/home/wwwroot"
 #    depends_on:
 #      - "php73"
+#    environment:
+#      TZ: "Asia/Shanghai"
 #    command:
 #      - /usr/sbin/init
 #    privileged: true
