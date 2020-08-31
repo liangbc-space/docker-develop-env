@@ -27,10 +27,8 @@ RUN yum install -y wget $extra_packages \
 	# 创建用户
 	&& useradd -M -s /sbin/nologin www \
 	# 安装php的一系列依赖包
-	&& yum -y install epel-release \
-	&& yum -y install libmcrypt-devel \
-	&& yum -y install libxml2 libxml2-devel openssl openssl-devel \
-	curl-devel libjpeg-devel libpng-devel freetype-devel libicu-devel gettext-devel \
+	&& yum -y install libmcrypt-devel libxml2 libxml2-devel curl-devel libjpeg-devel libpng-devel \
+	freetype-devel libicu-devel gettext-devel \
 	# 编译安装
 	&& cd /tmp && cp -r php-* php && cd php && ./configure \
     --prefix=$install_path \

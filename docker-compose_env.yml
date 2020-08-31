@@ -17,7 +17,7 @@ services:
       - "80:80"
     volumes:
       - "/Users/liangbincheng/docker-develop-env/docker-env/nginx/conf:/etc/nginx"
-      - "/Users/liangbincheng/docker-develop-env/docker-env/nginx/logs:/var/log/nginx"
+#      - "/Users/liangbincheng/docker-develop-env/docker-env/nginx/logs:/var/log/nginx"
       - "/Users/liangbincheng/project:/home/wwwroot"
     environment:
       TZ: "Asia/Shanghai"
