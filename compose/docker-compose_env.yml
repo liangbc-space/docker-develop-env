@@ -16,8 +16,8 @@ services:
     ports:
       - "80:80"
     volumes:
-      - "/Users/liangbincheng/docker-develop-env/docker-env/nginx/conf:/etc/nginx"
-#      - "/Users/liangbincheng/docker-develop-env/docker-env/nginx/logs:/var/log/nginx"
+      - "/Users/liangbincheng/docker-develop-env/env/nginx/conf:/etc/nginx"
+#      - "/Users/liangbincheng/docker-develop-env/env/nginx/logs:/var/log/nginx"
       - "/Users/liangbincheng/project:/home/wwwroot"
     environment:
       TZ: "Asia/Shanghai"
@@ -31,8 +31,8 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - "/Users/liangbincheng/docker-develop-env/docker-env/apache2/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf"
-      - "/Users/liangbincheng/docker-develop-env/docker-env/apache2/conf/vhosts:/usr/local/apache2/conf/vhosts"
+      - "/Users/liangbincheng/docker-develop-env/env/apache2/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf"
+      - "/Users/liangbincheng/docker-develop-env/env/apache2/conf/vhosts:/usr/local/apache2/conf/vhosts"
       - "/Users/liangbincheng/project:/home/wwwroot"
     environment:
       TZ: "Asia/Shanghai"
@@ -41,8 +41,8 @@ services:
   php56:
     image: php56:v1
     build:
-      context: .
-      dockerfile: dockerfile-php56
+      context: ../
+      dockerfile: dockerfile/dockerfile-php56
       args:
         install_path: "/usr/local/php"
         extra_packages: "vim lrzsz git"
@@ -61,8 +61,8 @@ services:
   php73:
     image: php73:v1
     build:
-      context: .
-      dockerfile: dockerfile-php73
+      context: ../
+      dockerfile: dockerfile/dockerfile-php73
       args:
         install_path: "/usr/local/php"
         extra_packages: "vim lrzsz git"
@@ -86,8 +86,8 @@ services:
       MYSQL_ROOT_HOST: "%"
       TZ: "Asia/Shanghai"
     volumes:
-      - "/Users/liangbincheng/docker-develop-env/docker-env/mysql/data:/var/lib/mysql"
-      - "/Users/liangbincheng/docker-develop-env/docker-env/mysql/conf:/etc/mysql/conf.d"
+      - "/Users/liangbincheng/docker-develop-env/env/mysql/data:/var/lib/mysql"
+      - "/Users/liangbincheng/docker-develop-env/env/mysql/conf:/etc/mysql/conf.d"
     ports:
       - "3306:3306"
     restart: unless-stopped
@@ -99,8 +99,8 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - "/Users/liangbincheng/docker-develop-env/docker-env/redis/config:/etc/redis/config"
-      - "/Users/liangbincheng/docker-develop-env/docker-env/redis/data:/data"
+      - "/Users/liangbincheng/docker-develop-env/env/redis/config:/etc/redis/config"
+      - "/Users/liangbincheng/docker-develop-env/env/redis/data:/data"
     environment:
       TZ: "Asia/Shanghai"
     command: redis-server /etc/redis/config/redis.conf
@@ -110,8 +110,8 @@ services:
 #  nginx:
 #    image: nginx:v1
 #    build:
-#      context: .
-#      dockerfile: dockerfile-nginx
+#      context: ../
+#      dockerfile: dockerfile/dockerfile-nginx
 #      args:
 #        install_path: /usr/local/nginx
 #        extra_package: vim lrzsz

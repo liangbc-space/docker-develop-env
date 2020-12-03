@@ -5,8 +5,8 @@ FROM centos:7
 LABEL maintainer="lbc346093@163.com"
 
 # 拷贝必要文件
-COPY service/php.service /lib/systemd/system/
-ADD resource/php7/php*.tar.* /tmp
+COPY ../service/php.service /lib/systemd/system/
+ADD resource/php5/php-*.tar.gz /tmp
 
 # php安装目录
 ARG install_path
@@ -52,6 +52,7 @@ RUN yum install -y wget $extra_packages \
 	--with-pdo-mysql=mysqlnd \
 	--enable-mysqlnd \
 	--enable-mysqlnd-compression-support \
+	--with-mysql \
 	--enable-fpm \
 	--enable-xml \
 	--enable-rpath \
@@ -74,7 +75,7 @@ RUN yum install -y wget $extra_packages \
 	# 拷贝相关配置文件
 	&& cp php.ini-production $install_path/etc/php.ini \
 	&& cp $install_path/etc/php-fpm.conf.default $install_path/etc/php-fpm.conf \
-	&& cp $install_path/etc/php-fpm.d/www.conf.default $install_path/etc/php-fpm.d/www.conf \
+	#&& cp $install_path/etc/php-fpm.d/www.conf.default $install_path/etc/php-fpm.d/www.conf \
 	# 开机自启
 	&& systemctl enable php.service \
 	# 环境变量设置

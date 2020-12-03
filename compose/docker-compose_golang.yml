@@ -11,8 +11,8 @@ services:
   golang:
     image: golang:v1
     build:
-      context: .
-      dockerfile: dockerfile-golang
+      context: ../
+      dockerfile: dockerfile/dockerfile-golang
       args:
         golang_version: "1.15"
         install_path: "/usr/local/golang"
