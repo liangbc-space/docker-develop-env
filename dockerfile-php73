@@ -5,8 +5,8 @@ FROM centos:7
 LABEL maintainer="lbc346093@163.com"
 
 # 拷贝必要文件
-COPY ../service/php.service /lib/systemd/system/
-ADD ../resource/php7/php*.tar.* /tmp
+COPY service/php.service /lib/systemd/system/
+ADD resource/php7/php*.tar.* /tmp
 
 # php安装目录
 ARG install_path
