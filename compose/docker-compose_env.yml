@@ -18,7 +18,7 @@ services:
     volumes:
       - "D:/docker-develop-env/env/nginx/conf:/etc/nginx"
 #      - "D:/docker-develop-env/env/nginx/logs:/var/log/nginx"
-      - "D:/project:/home/wwwroot"
+      - "D:/projects:/home/wwwroot"
     environment:
       TZ: "Asia/Shanghai"
     depends_on:
@@ -33,7 +33,7 @@ services:
     volumes:
       - "D:/docker-develop-env/env/apache2/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf"
       - "D:/docker-develop-env/env/apache2/conf/vhosts:/usr/local/apache2/conf/vhosts"
-      - "D:/project:/home/wwwroot"
+      - "D:/projects:/home/wwwroot"
     environment:
       TZ: "Asia/Shanghai"
     restart: unless-stopped
@@ -50,7 +50,7 @@ services:
     expose:
       - "9000"
     volumes:
-      - "D:/project:/home/wwwroot"
+      - "D:/projects:/home/wwwroot"
     environment:
       TZ: "Asia/Shanghai"
     command:
@@ -70,7 +70,7 @@ services:
     expose:
       - "9000"
     volumes:
-      - "D:/project:/home/wwwroot"
+      - "D:/projects:/home/wwwroot"
     environment:
       TZ: "Asia/Shanghai"
     command:
@@ -120,7 +120,7 @@ services:
 #      - "80:80"
 #      - "9990-9999:9990-9999"
 #    volumes:
-#      - "D:/project:/home/wwwroot"
+#      - "D:/projects:/home/wwwroot"
 #    depends_on:
 #      - "php73"
 #    environment:
