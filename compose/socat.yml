@@ -1,0 +1,19 @@
+version: '3'
+
+#设置默认虚拟网桥
+networks:
+  default:
+    external:
+      name: network-commom
+
+services:
+
+  socat:
+    image: alpine/socat
+    container_name: socat
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    ports:
+      - "2375:2375"
+    command: "tcp-listen:2375,fork,reuseaddr unix-connect:/var/run/docker.sock"
+    restart: unless-stopped

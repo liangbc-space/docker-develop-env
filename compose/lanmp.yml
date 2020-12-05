@@ -129,14 +129,3 @@ services:
 #      - /usr/sbin/init
 #    privileged: true
 #    restart: unless-stopped
-
-
-#  centos:
-#    image: centos:7
-#    container_name: centos
-#    environment:
-#      TZ: "Asia/Shanghai"
-#    command:
-#      - /usr/sbin/init
-#    privileged: true
-#    restart: unless-stopped
