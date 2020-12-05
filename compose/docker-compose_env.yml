@@ -16,9 +16,9 @@ services:
     ports:
       - "80:80"
     volumes:
-      - "D:/docker-develop-env/env/nginx/conf:/etc/nginx"
-#      - "D:/docker-develop-env/env/nginx/logs:/var/log/nginx"
-      - "D:/projects:/home/wwwroot"
+      - "/Users/liangbincheng/docker-develop-env/env/nginx/conf:/etc/nginx"
+#      - "/Users/liangbincheng/docker-develop-env/env/nginx/logs:/var/log/nginx"
+      - "/Users/liangbincheng/projects:/home/wwwroot"
     environment:
       TZ: "Asia/Shanghai"
     depends_on:
@@ -31,9 +31,9 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - "D:/docker-develop-env/env/apache2/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf"
-      - "D:/docker-develop-env/env/apache2/conf/vhosts:/usr/local/apache2/conf/vhosts"
-      - "D:/projects:/home/wwwroot"
+      - "/Users/liangbincheng/docker-develop-env/env/apache2/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf"
+      - "/Users/liangbincheng/docker-develop-env/env/apache2/conf/vhosts:/usr/local/apache2/conf/vhosts"
+      - "/Users/liangbincheng/projects:/home/wwwroot"
     environment:
       TZ: "Asia/Shanghai"
     restart: unless-stopped
@@ -50,7 +50,7 @@ services:
     expose:
       - "9000"
     volumes:
-      - "D:/projects:/home/wwwroot"
+      - "/Users/liangbincheng/projects:/home/wwwroot"
     environment:
       TZ: "Asia/Shanghai"
     command:
@@ -70,7 +70,7 @@ services:
     expose:
       - "9000"
     volumes:
-      - "D:/projects:/home/wwwroot"
+      - "/Users/liangbincheng/projects:/home/wwwroot"
     environment:
       TZ: "Asia/Shanghai"
     command:
@@ -86,8 +86,8 @@ services:
       MYSQL_ROOT_HOST: "%"
       TZ: "Asia/Shanghai"
     volumes:
-      - "D:/docker-develop-env/env/mysql/data:/var/lib/mysql"
-      - "D:/docker-develop-env/env/mysql/conf:/etc/mysql/conf.d"
+      - "/Users/liangbincheng/docker-develop-env/env/mysql/data:/var/lib/mysql"
+      - "/Users/liangbincheng/docker-develop-env/env/mysql/conf:/etc/mysql/conf.d"
     ports:
       - "3306:3306"
     restart: unless-stopped
@@ -99,8 +99,8 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - "D:/docker-develop-env/env/redis/config:/etc/redis/config"
-      - "D:/docker-develop-env/env/redis/data:/data"
+      - "/Users/liangbincheng/docker-develop-env/env/redis/config:/etc/redis/config"
+      - "/Users/liangbincheng/docker-develop-env/env/redis/data:/data"
     environment:
       TZ: "Asia/Shanghai"
     command: redis-server /etc/redis/config/redis.conf
@@ -120,7 +120,7 @@ services:
 #      - "80:80"
 #      - "9990-9999:9990-9999"
 #    volumes:
-#      - "D:/projects:/home/wwwroot"
+#      - "/Users/liangbincheng/projects:/home/wwwroot"
 #    depends_on:
 #      - "php73"
 #    environment:
