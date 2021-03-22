@@ -15,6 +15,9 @@ ARG gopath
 # 系统包   如vim、lrzsz等
 ARG extra_packages=vim
 
+# 系统代理
+ARG proxy=socks5://docker.for.mac.host.internal:1087
+
 RUN yum install -y wget $extra_packages \
     # 时区设置
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
@@ -26,6 +29,10 @@ RUN yum install -y wget $extra_packages \
     # 安装基于系统的一些依赖
     && yum install -y gcc gcc-c++ glibc make autoconf openssl openssl-devel libxslt-devel gd gd-devel \
         pcre pcre-devel epel-release \
+
+    # 系统代理设置
+    && echo -e "alias setProxy=\"export ALL_PROXY=$proxy; echo -e '已开启代理'\" \nalias unsetProxy=\"unset ALL_PROXY; echo -e '已关闭代理'\" \nalias ip=\"curl cip.cc\" \nalias wget=\"wget -U\" \n"  >> /etc/bashrc \
+
     # 下载安装包
     && cd /tmp && wget -c https://golang.google.cn/dl/go$golang_version.linux-amd64.tar.gz \
     # 解压源码包到制定安装位置
