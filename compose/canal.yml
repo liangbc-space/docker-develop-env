@@ -1,0 +1,27 @@
+version: '3'
+
+#设置默认虚拟网桥
+networks:
+  default:
+    external:
+      name: network-commom
+
+services:
+
+  canal:
+    image: canal:v1
+    build:
+      context: ../
+      dockerfile: dockerfile-base
+      args:
+        extra_packages: "vim lrzsz"
+        proxy: "socks5://docker.for.mac.host.internal:1087"
+    container_name: canal
+    ports:
+      - "19991-19999:19991-19999"
+    environment:
+      TZ: "Asia/Shanghai"
+    command:
+      - /usr/sbin/init
+    privileged: true
+    restart: unless-stopped
