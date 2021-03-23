@@ -18,8 +18,10 @@ http.cors.enabled: true
 http.cors.allow-origin: "*"
 
 #集群初始化时指定的主节点
-cluster.initial_master_nodes: [ "es01", "es02" ]
-discovery.seed_hosts: [ "es01",  "es02" ]
+#cluster.initial_master_nodes: [ "es01", "es02" ]
+cluster.initial_master_nodes: [ "es01" ]
+#discovery.seed_hosts: [ "es01",  "es02" ]
+discovery.seed_hosts: [ "es01" ]
 
 bootstrap.memory_lock: true
 bootstrap.system_call_filter: false
