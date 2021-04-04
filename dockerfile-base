@@ -10,6 +10,8 @@ ARG extra_packages=vim
 # 系统代理
 ARG proxy=socks5://docker.for.mac.host.internal:1087
 
+ENV LANG C.UTF-8
+
 RUN yum install -y wget $extra_packages \
     # 时区设置
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
