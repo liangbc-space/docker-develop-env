@@ -1,0 +1,21 @@
+version: '3'
+
+#设置默认虚拟网桥
+networks:
+  default:
+    external:
+      name: network-commom
+
+services:
+
+  tabix:
+    container_name: tabix
+    image: "spoonest/clickhouse-tabix-web-client"
+    environment:
+      USER: "root"
+      PASSWORD: "123456"
+      TZ: "Asia/Shanghai"
+    ports:
+      - "19001:80"
+
+    restart: unless-stopped
