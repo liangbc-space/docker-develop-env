@@ -1,0 +1,22 @@
+version: '3'
+
+#设置默认虚拟网桥
+networks:
+  default:
+    external:
+      name: network-commom
+
+services:
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - "/Users/liangbincheng/docker-develop-env/env/redis/config:/etc/redis/config"
+      - "/Users/liangbincheng/docker-develop-env/env/redis/data:/data"
+    environment:
+      TZ: "Asia/Shanghai"
+    command: redis-server /etc/redis/config/redis.conf

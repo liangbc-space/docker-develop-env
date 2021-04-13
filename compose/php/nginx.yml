@@ -1,0 +1,21 @@
+version: '3'
+
+#设置默认虚拟网桥
+networks:
+  default:
+    external:
+      name: network-commom
+
+services:
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - "/Users/liangbincheng/docker-develop-env/env/nginx/conf:/etc/nginx"
+      - "/Users/liangbincheng/projects:/home/wwwroot"
+    environment:
+      TZ: "Asia/Shanghai"
+    restart: unless-stopped

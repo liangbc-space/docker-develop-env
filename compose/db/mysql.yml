@@ -1,0 +1,23 @@
+version: '3'
+
+#设置默认虚拟网桥
+networks:
+  default:
+    external:
+      name: network-commom
+
+services:
+
+  mysql:
+    container_name: mysql
+    image: mysql:5.6
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+      MYSQL_ROOT_HOST: "%"
+      TZ: "Asia/Shanghai"
+    volumes:
+      - "/Users/liangbincheng/docker-develop-env/env/mysql/data:/var/lib/mysql"
+      - "/Users/liangbincheng/docker-develop-env/env/mysql/conf:/etc/mysql/conf.d"
+    ports:
+      - "3306:3306"
+    restart: unless-stopped

@@ -507,18 +507,18 @@
             </shard>
         </test_shard_localhost>
         <test_cluster_two_shards_localhost>
-             <shard>
-                 <replica>
-                     <host>localhost</host>
-                     <port>9000</port>
-                 </replica>
-             </shard>
-             <shard>
-                 <replica>
-                     <host>localhost</host>
-                     <port>9000</port>
-                 </replica>
-             </shard>
+            <shard>
+                <replica>
+                    <host>localhost</host>
+                    <port>9000</port>
+                </replica>
+            </shard>
+            <shard>
+                <replica>
+                    <host>localhost</host>
+                    <port>9000</port>
+                </replica>
+            </shard>
         </test_cluster_two_shards_localhost>
         <test_cluster_two_shards>
             <shard>
@@ -830,7 +830,7 @@
         <database>system</database>
         <table>crash_log</table>
 
-        <partition_by />
+        <partition_by/>
         <flush_interval_milliseconds>1000</flush_interval_milliseconds>
     </crash_log>
 

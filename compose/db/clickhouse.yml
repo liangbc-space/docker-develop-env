@@ -29,17 +29,13 @@ services:
     environment:
       TZ: "Asia/Shanghai"
     volumes:
-      - "/Users/liangbincheng/docker-develop-env/env/clickhouse/clickhouse-server/data:/var/lib/clickhouse"
-      - "/Users/liangbincheng/docker-develop-env/env/clickhouse/clickhouse-server/conf:/etc/clickhouse-server"
+      - "/Users/liangbincheng/docker-develop-env/env/clickhouse/data:/var/lib/clickhouse"
+      - "/Users/liangbincheng/docker-develop-env/env/clickhouse/conf:/etc/clickhouse-server"
     expose:
       - "9000"
     ports:
       - "8123:8123"
       - "19000:9000"
     user: root
-    #    ulimits:
-    #      nofile:
-    #        soft: 262144
-    #        hard: 262144
 
     restart: unless-stopped

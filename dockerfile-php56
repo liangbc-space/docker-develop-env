@@ -37,7 +37,7 @@ RUN yum install -y wget $extra_packages \
 	&& useradd -M -s /sbin/nologin www \
 	# 安装php的一系列依赖包
 	&& yum -y install libmcrypt-devel libxml2 libxml2-devel curl-devel libjpeg-devel libpng-devel \
-	freetype-devel libicu-devel gettext-devel \
+	freetype-devel libicu-devel gettext-devel zlib \
 	# 编译安装
 	&& cd /tmp && cp -r php-* php && cd php && ./configure \
     --prefix=$install_path \

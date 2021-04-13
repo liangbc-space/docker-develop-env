@@ -8,17 +8,20 @@ networks:
 
 services:
 
-  canal:
-    image: canal:v1
+  php56:
+    image: php56:v1
     build:
-      context: ../
-      dockerfile: dockerfile-base
+      context: ../../
+      dockerfile: dockerfile-php56
       args:
-        extra_packages: "vim lrzsz"
+        install_path: "/usr/local/php"
+        extra_packages: "vim lrzsz git"
         proxy: "socks5://docker.for.mac.host.internal:1087"
-    container_name: canal
-    ports:
-      - "19991-19999:19991-19999"
+    container_name: php56
+    expose:
+      - "9000"
+    volumes:
+      - "/Users/liangbincheng/projects:/home/wwwroot"
     environment:
       TZ: "Asia/Shanghai"
     command:

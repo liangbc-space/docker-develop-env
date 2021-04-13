@@ -8,22 +8,17 @@ networks:
 
 services:
 
-  golang:
-    image: golang:v1
+  canal:
+    image: canal:v1
     build:
-      context: ../
-      dockerfile: dockerfile-golang
+      context: ../../
+      dockerfile: dockerfile-base
       args:
-        golang_version: "1.15"
-        install_path: "/usr/local/golang"
-        gopath: "/go"
-        extra_packages: "vim lrzsz git"
+        extra_packages: "vim lrzsz"
         proxy: "socks5://docker.for.mac.host.internal:1087"
-    container_name: golang
+    container_name: canal
     ports:
-      - "8000:8080"
-    volumes:
-      - "/Users/liangbincheng/go/src:/go/src"
+      - "19991-19999:19991-19999"
     environment:
       TZ: "Asia/Shanghai"
     command:

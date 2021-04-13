@@ -1,0 +1,32 @@
+version: '3'
+
+#设置默认虚拟网桥
+networks:
+  default:
+    external:
+      name: network-commom
+
+services:
+
+  golang:
+    image: golang:v1
+    build:
+      context: ../../
+      dockerfile: dockerfile-golang
+      args:
+        golang_version: "1.15"
+        install_path: "/usr/local/golang"
+        gopath: "/go"
+        extra_packages: "vim lrzsz git"
+        proxy: "socks5://docker.for.mac.host.internal:1087"
+    container_name: golang
+    ports:
+      - "8000:8080"
+    volumes:
+      - "/Users/liangbincheng/go/src:/go/src"
+    environment:
+      TZ: "Asia/Shanghai"
+    command:
+      - /usr/sbin/init
+    privileged: true
+    restart: unless-stopped
