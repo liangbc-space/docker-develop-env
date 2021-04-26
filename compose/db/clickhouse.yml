@@ -29,8 +29,8 @@ services:
     environment:
       TZ: "Asia/Shanghai"
     volumes:
-      - "/Users/liangbincheng/docker-develop-env/env/clickhouse/data:/var/lib/clickhouse"
-      - "/Users/liangbincheng/docker-develop-env/env/clickhouse/conf:/etc/clickhouse-server"
+      - "../../env/clickhouse/data:/var/lib/clickhouse"
+      - "../../env/clickhouse/conf:/etc/clickhouse-server"
     expose:
       - "9000"
     ports:

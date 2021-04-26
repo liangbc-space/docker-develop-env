@@ -14,8 +14,8 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - "/Users/liangbincheng/docker-develop-env/env/apache2/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf"
-      - "/Users/liangbincheng/docker-develop-env/env/apache2/conf/vhosts:/usr/local/apache2/conf/vhosts"
+      - "../../env/apache2/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf"
+      - "../../env/apache2/conf/vhosts:/usr/local/apache2/conf/vhosts"
       - "/Users/liangbincheng/projects:/home/wwwroot"
     environment:
       TZ: "Asia/Shanghai"

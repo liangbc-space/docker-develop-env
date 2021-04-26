@@ -16,8 +16,8 @@ services:
       MYSQL_ROOT_HOST: "%"
       TZ: "Asia/Shanghai"
     volumes:
-      - "/Users/liangbincheng/docker-develop-env/env/mysql/data:/var/lib/mysql"
-      - "/Users/liangbincheng/docker-develop-env/env/mysql/conf:/etc/mysql/conf.d"
+      - "../../env/mysql/data:/var/lib/mysql"
+      - "../../env/mysql/conf:/etc/mysql/conf.d"
     ports:
       - "3306:3306"
     restart: unless-stopped

@@ -15,8 +15,8 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - "/Users/liangbincheng/docker-develop-env/env/redis/config:/etc/redis/config"
-      - "/Users/liangbincheng/docker-develop-env/env/redis/data:/data"
+      - "../../env/redis/config:/etc/redis/config"
+      - "../../env/redis/data:/data"
     environment:
       TZ: "Asia/Shanghai"
     command: redis-server /etc/redis/config/redis.conf
