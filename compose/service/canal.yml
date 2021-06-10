@@ -9,7 +9,7 @@ networks:
 services:
 
   canal:
-    image: canal:v1
+    image: centos7-base:v1
     build:
       context: ../../
       dockerfile: dockerfile-base
