@@ -1,0 +1,54 @@
+version: '3'
+
+#设置默认虚拟网桥
+networks:
+  default:
+    external:
+      name: network-commom
+
+services:
+  rmq-nameserver:
+    image: foxiswho/rocketmq:server
+    container_name: rmq-nameserver
+    ports:
+      - 9876:9876
+    environment:
+      TZ: "Asia/Shanghai"
+    restart: unless-stopped
+
+
+  rmq-broker:
+    image: foxiswho/rocketmq:broker
+    container_name: rmq-broker
+    ports:
+      - 10909:10909
+      - 10911:10911
+    volumes:
+      - ../../env/rocketmq/conf/broker.conf:/etc/rocketmq/broker.conf
+    environment:
+      TZ: "Asia/Shanghai"
+      NAMESRV_ADDR: "rmq-nameserver:9876"
+      JAVA_OPTS: " -Duser.home=/opt"
+      JAVA_OPT_EXT: "-server -Xms128m -Xmx128m -Xmn128m"
+    command: mqbroker -c /etc/rocketmq/broker.conf
+
+    depends_on:
+      - rmq-nameserver
+
+    restart: unless-stopped
+
+
+  rmq-console:
+    image: styletang/rocketmq-console-ng
+    container_name: rmq-console
+    ports:
+      - 10912:8080
+    environment:
+      TZ: "Asia/Shanghai"
+      JAVA_OPTS: "-Drocketmq.namesrv.addr=rmq-nameserver:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false"
+
+    depends_on:
+      - rmq-nameserver
+      - rmq-broker
+
+    restart: unless-stopped
