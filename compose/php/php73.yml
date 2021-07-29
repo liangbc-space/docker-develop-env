@@ -9,7 +9,7 @@ networks:
 services:
 
   php73:
-    image: php73:v1
+    image: php:v7.3
     build:
       context: ../../
       dockerfile: dockerfile-php73
@@ -21,7 +21,7 @@ services:
     expose:
       - "9000"
     volumes:
-      - "/Users/liangbincheng/projects:/home/wwwroot"
+      - "/Users/liangbincheng/oemsass:/home/wwwroot"
     environment:
       TZ: "Asia/Shanghai"
     command:

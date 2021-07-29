@@ -8,7 +8,7 @@ networks:
 
 services:
 
-  php:
+  php80:
     image: php:v8
     build:
       context: ../../

@@ -9,7 +9,7 @@ networks:
 services:
 
   php56:
-    image: php56:v1
+    image: php:v5.6
     build:
       context: ../../
       dockerfile: dockerfile-php56
