@@ -1,5 +1,5 @@
 # 基础镜像
-FROM php:7.3-fpm-alpine
+FROM alpine
 
 # 编写者
 LABEL maintainer="lbc346093@163.com"
@@ -26,31 +26,9 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
                 alias ls="ls --color=auto"\n \
                 source /etc/profile.d/bash_completion.sh\n' >> /root/.bashrc \
 
-    # composer
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer \
+	# 删除无用的文件，使镜像文件足够小
+	&& rm -rf /var/cache/apk/* && rm -rf /root/.cache && rm -rf /tmp/*
 
-    # php.ini
-    && mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
-
-    # php设置时区
-    && sed -i "s#;date.timezone =#date.timezone = $TZ#g" $PHP_INI_DIR/php.ini \
-
-    # 安装php依赖的系统服务
-    && apk add --no-cache libmcrypt-dev freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev \
-
-    # 安装php扩展
-    && docker-php-ext-install bcmath zip mbstring mysqli pdo pdo_mysql \
-
-    # pecl安装
-    && pecl install redis && docker-php-ext-enable redis \
-
-
-    # 放在最后，删除安装文件
-    && docker-php-source delete
-
-    # 删除无用的文件，使镜像文件足够小
-    && rm -rf /var/cache/apk/* && rm -rf /root/.cache && rm -rf /tmp/*
-
-CMD ["php-fpm"]
+CMD ["/bin/bash"]
 
 WORKDIR /

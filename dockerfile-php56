@@ -4,15 +4,21 @@ FROM php:5.6-fpm-alpine
 # 编写者
 LABEL maintainer="lbc346093@163.com"
 
+ENV LANG C.UTF-8
+ENV TZ Asia/Shanghai
+
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && apk update \
 
-    # 安装bash支持
-    && apk add --no-cache bash bash-doc bash-completion && sed -i 's/ash/bash/g' /etc/passwd \
+    # 系统时区设置
+    && apk add --no-cache tzdata && ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ >> /etc/timezone \
 
     # 安装常用系统服务
     && apk add --no-cache wget vim gcc g++ automake autoconf make openssl-dev \
 
-    # bash和系统别名设置
+    # 安装bash支持
+    && apk add --no-cache bash bash-doc bash-completion && sed -i 's/ash/bash/g' /etc/passwd \
+
+    # 别名和环境设置
     && echo -e 'export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "\n \
                 export PS1="[\u@\h \W]# "\n \
                 alias wget="wget -U"\n \
@@ -24,7 +30,10 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer \
 
     # php.ini
-    && cp -rf "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
+    && mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
+
+    # php设置时区
+    && sed -i "s#;date.timezone =#date.timezone = $TZ#g" $PHP_INI_DIR/php.ini \
 
     # 安装php依赖的系统服务
     && apk add --no-cache libmcrypt-dev freetype-dev libjpeg-turbo-dev libpng-dev \
@@ -33,7 +42,14 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     && docker-php-ext-install mcrypt bcmath zip mbstring mysqli pdo pdo_mysql mysql \
 
     # pecl安装
-    && pecl install redis-3.1.6 && docker-php-ext-enable redis
+    && pecl install redis-3.1.6 && docker-php-ext-enable redis \
+
+
+    # 放在最后，删除安装文件
+    && docker-php-source delete
+
+    # 删除无用的文件，使镜像文件足够小
+    && rm -rf /var/cache/apk/* && rm -rf /root/.cache && rm -rf /tmp/*
 
 CMD ["php-fpm"]
 
