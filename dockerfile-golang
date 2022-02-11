@@ -1,5 +1,5 @@
 # 基础镜像
-FROM centos:7
+FROM centos:8
 
 # 编写者
 LABEL maintainer="lbc346093@163.com"
@@ -25,15 +25,17 @@ RUN yum install -y wget $extra_packages \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" >> /etc/timezone \
     # 切换镜像源
-    && cd /etc/yum.repos.d \
-    && wget http://mirrors.aliyun.com/repo/Centos-7.repo https://mirrors.aliyun.com/repo/epel-7.repo \
-    && mv Centos-7.repo CentOS-Base.repo && yum clean all  &&  yum makecache \
+    && wget -O /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-8.repo \
+    && yum clean all  &&  yum makecache \
     # 安装基于系统的一些依赖
     && yum install -y gcc gcc-c++ glibc make autoconf openssl openssl-devel libxslt-devel gd gd-devel \
         pcre pcre-devel epel-release \
 
+    # 系统别名设置
+    && echo -e "alias wget=\"wget -U\" \nalias ll=\"ls -l\" \n" >> /etc/bashrc \
+
     # 系统代理设置
-    && echo -e "alias setProxy=\"export ALL_PROXY=$proxy; echo -e '已开启代理'\" \nalias unsetProxy=\"unset ALL_PROXY; echo -e '已关闭代理'\" \nalias ip=\"curl cip.cc\" \nalias wget=\"wget -U\" \n"  >> /etc/bashrc \
+    && echo -e "alias setProxy=\"export ALL_PROXY=$proxy; echo -e '已开启代理'\" \nalias unsetProxy=\"unset ALL_PROXY; echo -e '已关闭代理'\" \nalias ip=\"curl cip.cc\" \n" >> /etc/bashrc \
 
     # 下载安装包
     && cd /tmp && wget -c https://golang.google.cn/dl/go$golang_version.linux-amd64.tar.gz \

@@ -1,99 +1,40 @@
 # 基础镜像
-FROM centos:7
+FROM php:7.3-fpm-alpine
 
 # 编写者
 LABEL maintainer="lbc346093@163.com"
 
-# 拷贝必要文件
-COPY service/php.service /lib/systemd/system/
-ADD resource/php7/php*.tar.* /tmp
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && apk update \
 
-# php安装目录
-ARG install_path
-# 系统包   如vim、lrzsz等
-ARG extra_packages=vim
+    # 安装bash支持
+    && apk add --no-cache bash bash-doc bash-completion && sed -i 's/ash/bash/g' /etc/passwd \
 
-# 系统代理
-ARG proxy=socks5://docker.for.mac.host.internal:1087
+    # 安装常用系统服务
+    && apk add --no-cache wget vim gcc g++ automake autoconf make openssl-dev \
 
-ENV LANG C.UTF-8
+    # bash和系统别名设置
+    && echo -e 'export HISTTIMEFORMAT="%Y-%m-%d %H:%M:%S "\n \
+                export PS1="[\u@\h \W]# "\n \
+                alias wget="wget -U"\n \
+                alias ll="ls -alF"\n \
+                alias ls="ls --color=auto"\n \
+                source /etc/profile.d/bash_completion.sh\n' >> /root/.bashrc \
 
-RUN yum install -y wget $extra_packages \
-    # 时区设置
-    && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-    && echo "Asia/Shanghai" >> /etc/timezone \
-	# 切换镜像源
-	&& cd /etc/yum.repos.d \
-	&& wget http://mirrors.aliyun.com/repo/Centos-7.repo https://mirrors.aliyun.com/repo/epel-7.repo \
-	&& mv Centos-7.repo CentOS-Base.repo && yum clean all  &&  yum makecache \
-	# 安装基于系统的一些依赖
-    && yum install -y gcc gcc-c++ glibc make autoconf openssl openssl-devel libxslt-devel gd gd-devel \
-    pcre pcre-devel epel-release \
+    # composer
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer \
 
-    # 系统代理设置
-    && echo -e "alias setProxy=\"export ALL_PROXY=$proxy; echo -e '已开启代理'\" \nalias unsetProxy=\"unset ALL_PROXY; echo -e '已关闭代理'\" \nalias ip=\"curl cip.cc\" \nalias wget=\"wget -U\" \n"  >> /etc/bashrc \
+    # php.ini
+    && cp -rf "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" \
 
-	# 创建用户
-	&& useradd -M -s /sbin/nologin www \
-	# 安装php的一系列依赖包
-	&& yum -y install libmcrypt-devel libxml2 libxml2-devel curl-devel libjpeg-devel libpng-devel \
-	freetype-devel libicu-devel gettext-devel \
-	# 编译安装
-	&& cd /tmp && cp -r php-* php && cd php && ./configure \
-    --prefix=$install_path \
-	--with-config-file-path=$install_path/etc \
-	--with-fpm-user=www \
-	--with-fpm-group=www \
-	--with-iconv-dir \
-	--with-freetype-dir \
-	--with-jpeg-dir \
-	--with-png-dir \
-	--with-zlib \
-	--with-libxml-dir \
-	--with-pear \
-	--with-gettext \
-	--with-curl \
-	--with-xmlrpc \
-	--with-openssl \
-	--with-mhash \
-	--with-gd \
-	--with-mysqli=mysqlnd \
-	--with-pdo-mysql=mysqlnd \
-	--enable-mysqlnd \
-	--enable-mysqlnd-compression-support \
-	--enable-fpm \
-	--enable-xml \
-	--enable-rpath \
-	--enable-bcmath \
-	--enable-shmop \
-	--enable-sysvsem \
-	--enable-inline-optimization \
-	--enable-mbregex \
-	--enable-mbstring \
-	--enable-intl \
-	--enable-ftp \
-	--enable-gd-jis-conv \
-	--enable-pcntl \
-	--enable-sockets \
-	--enable-soap \
-	--enable-fileinfo \
-	--enable-opcache \
-	--enable-maintainer-zts \
-	&& make && make install \
-	# 拷贝相关配置文件
-	&& cp php.ini-production $install_path/etc/php.ini \
-	&& cp $install_path/etc/php-fpm.conf.default $install_path/etc/php-fpm.conf \
-	&& cp $install_path/etc/php-fpm.d/www.conf.default $install_path/etc/php-fpm.d/www.conf \
-	# 开机自启
-	&& systemctl enable php.service \
-	# 环境变量设置
-	&& echo 'export PATH=$PATH':"$install_path/bin" >> /etc/bashrc \
-	&& source /etc/bashrc \
-	# composer安装
-	&& curl -sS https://getcomposer.org/installer | php \
-	&& mv composer.phar /usr/local/bin/composer \
-	&& yum install -y zip unzip \
-	# 删除无用的文件，使镜像文件足够小
-	&& yum clean all && rm -rf /tmp/*
+    # 安装php依赖的系统服务
+    && apk add --no-cache libmcrypt-dev freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev \
+
+    # 安装php扩展
+    && docker-php-ext-install bcmath zip mbstring mysqli pdo pdo_mysql \
+
+    # pecl安装
+    && pecl install redis && docker-php-ext-enable redis
+
+CMD ["php-fpm"]
 
 WORKDIR /

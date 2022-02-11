@@ -13,18 +13,14 @@ services:
     build:
       context: ../../
       dockerfile: dockerfile-php73
-      args:
-        install_path: "/usr/local/php"
-        extra_packages: "vim lrzsz git"
-        proxy: "socks5://docker.for.mac.host.internal:1087"
-    container_name: "php73"
+    container_name: php73
     expose:
       - "9000"
     volumes:
       - "/Users/liangbincheng/oemsass:/home/wwwroot"
     environment:
       TZ: "Asia/Shanghai"
-    command:
-      - /usr/sbin/init
     privileged: true
     restart: unless-stopped
+    stdin_open: true
+    tty: true
