@@ -46,7 +46,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 
 
     # 放在最后，删除安装文件
-    && docker-php-source delete
+    && docker-php-source delete \
 
     # 删除无用的文件，使镜像文件足够小
     && rm -rf /var/cache/apk/* && rm -rf /root/.cache && rm -rf /tmp/*
