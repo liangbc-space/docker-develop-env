@@ -10,6 +10,11 @@
   
     docker network inspect $networkID                       #查看network信息
     ```
+  
+- dockerfile构建镜像
+  ```
+  docker build -f $dockerfile -t $tagname .
+  ```
 
 
 - docker-compose构建容器
