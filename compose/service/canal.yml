@@ -9,15 +9,16 @@ networks:
 services:
 
   canal:
-    image: alpine
-    build:
-      context: ../../
-      dockerfile: dockerfile-alpine
+    image: canal/canal-server:v1.1.5
     container_name: canal
     ports:
-      - "19991-19999:19991-19999"
+      - "11110:11110"
+      - "11111:11111"
+      - "11112:11112"
+      - "9100:9100"
+    env_file: ../../env/canal/oemsaas.env
     environment:
-      TZ: "Asia/Shanghai"
+      TZ: $cana
     privileged: true
     restart: unless-stopped
     stdin_open: true
