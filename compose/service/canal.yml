@@ -9,7 +9,7 @@ networks:
 services:
 
   canal:
-    image: canal/canal-server:v1.1.5
+    image: canal/canal-server:latest
     container_name: canal
     ports:
       - "11110:11110"
