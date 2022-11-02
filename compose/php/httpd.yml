@@ -16,7 +16,7 @@ services:
     volumes:
       - "../../env/apache2/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf"
       - "../../env/apache2/conf/vhosts:/usr/local/apache2/conf/vhosts"
-      - "/Users/liangbincheng/projects:/home/wwwroot"
+      - "/Users/liangbincheng/shopyy:/home/wwwroot"
     environment:
       TZ: "Asia/Shanghai"
     restart: unless-stopped

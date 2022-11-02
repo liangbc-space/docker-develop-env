@@ -15,7 +15,7 @@ services:
       - "80:80"
     volumes:
       - "../../env/nginx/conf:/etc/nginx"
-      - "/Users/liangbincheng/oemsass:/home/wwwroot"
+      - "/Users/liangbincheng/oemsaas:/home/wwwroot"
     environment:
       TZ: "Asia/Shanghai"
     restart: unless-stopped

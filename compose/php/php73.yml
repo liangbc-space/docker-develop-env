@@ -17,7 +17,7 @@ services:
     expose:
       - "9000"
     volumes:
-      - "/Users/liangbincheng/oemsass:/home/wwwroot"
+      - "/Users/liangbincheng/oemsaas:/home/wwwroot"
     environment:
       TZ: "Asia/Shanghai"
     privileged: true
