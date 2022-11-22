@@ -51,6 +51,20 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     && pecl install redis-3.1.6 && docker-php-ext-enable redis \
 
 
+    # xdebug2扩展
+    && pecl install xdebug-2.5.5 && docker-php-ext-enable xdebug \
+    && echo -e '[xdebug] \n \
+                xdebug.auto_trace=On \n \
+                xdebug.profiler_enable=On \n \
+                xdebug.remote_enable=1 \n \
+                xdebug.remote_autostart=1 \n \
+                xdebug.remote_host="docker.for.mac.host.internal" \n \
+                xdebug.remote_port=9003 \n \
+                xdebug.remote_handler="dbgp" \n \
+                xdebug.idekey="PHPSTORM" \n' >> "$PHP_INI_DIR/php.ini" \
+
+
+
     # 放在最后，删除安装文件
     && docker-php-source delete \
 
