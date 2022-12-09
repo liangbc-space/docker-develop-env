@@ -42,16 +42,18 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer \
 
     # 安装php依赖的系统服务
-    && apk add --no-cache libmcrypt-dev freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev \
+    && apk add --no-cache libmcrypt-dev freetype-dev libjpeg-turbo-dev libpng-dev libzip-dev php-gd \
 
-    # 安装php扩展
+    # 安装php基础扩展
     && docker-php-ext-install bcmath zip mbstring mysqli pdo pdo_mysql \
+    # GD库
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && docker-php-ext-install -j$(nproc) gd \
 
     # redis扩展
     && pecl install redis && docker-php-ext-enable redis \
 
     # xdebug3扩展
-    && pecl install xdebug && docker-php-ext-enable xdebug \
+    && pecl install xdebug-3.1.6 && docker-php-ext-enable xdebug \
     && echo -e '[xdebug] \n \
                 xdebug.mode = "debug" \n \
                 xdebug.client_host = "docker.for.mac.host.internal" \n \
