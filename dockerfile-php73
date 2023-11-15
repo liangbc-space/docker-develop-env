@@ -55,10 +55,10 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     # xdebug3扩展
     && pecl install xdebug-3.1.6 && docker-php-ext-enable xdebug \
     && echo -e '[xdebug] \n \
-                xdebug.mode = "debug" \n \
-                xdebug.client_host = "docker.for.mac.host.internal" \n \
-                xdebug.client_port = 9003 \n \
-                xdebug.idekey="PHPSTORM" \n' >> "$PHP_INI_DIR/php.ini" \
+xdebug.mode = "debug" \n \
+xdebug.client_host = "docker.for.mac.host.internal" \n \
+xdebug.client_port = 9003 \n \
+xdebug.idekey="PHPSTORM" \n' >> "$PHP_INI_DIR/php.ini" \
 
 
     # 放在最后，删除安装文件
