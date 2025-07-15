@@ -1,4 +1,4 @@
 *
 
 !.gitignore
-!example.env
+!example.instance.properties

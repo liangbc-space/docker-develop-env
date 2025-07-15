@@ -16,7 +16,7 @@ services:
       - "11111:11111"
       - "11112:11112"
       - "9100:9100"
-    env_file: ../../env/canal/oemsaas.env
+    env_file: ../../env/canal/example.instance.properties
     environment:
       TZ: "Asia/Shanghai"
     privileged: true

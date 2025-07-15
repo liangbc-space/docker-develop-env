@@ -20,6 +20,7 @@
 - docker-compose构建容器
     ```
     docker-compose -f $docker-composer.yml up -d
+    docker compose -f $docker-composer.yml up -d
     ```
 
 
