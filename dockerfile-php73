@@ -50,7 +50,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && docker-php-ext-install -j$(nproc) gd \
 
     # redis扩展
-    && pecl install redis && docker-php-ext-enable redis \
+    && pecl install redis-5.3.7 && docker-php-ext-enable redis \
 
     # xdebug3扩展
     && pecl install xdebug-3.1.6 && docker-php-ext-enable xdebug \
