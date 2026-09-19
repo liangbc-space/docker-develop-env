@@ -17,7 +17,7 @@ services:
     expose:
       - "9000"
     volumes:
-      - "/Users/liangbincheng/shopyy:/home/wwwroot"
+      - "/Users/liangbc/shopyy:/home/wwwroot"
     environment:
       TZ: "Asia/Shanghai"
     privileged: true
