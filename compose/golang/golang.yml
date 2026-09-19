@@ -23,7 +23,7 @@ services:
     ports:
       - "8000:8080"
     volumes:
-      - "/Users/liangbc/go/src:/go/src"
+      - "~/go/src:/go/src"
     environment:
       TZ: "Asia/Shanghai"
     command:

@@ -17,7 +17,7 @@ services:
     expose:
       - "9000"
     volumes:
-      - "/Users/liangbc/oemsaas:/home/wwwroot"
+      - "~/oemsaas:/home/wwwroot"
     environment:
       TZ: "Asia/Shanghai"
     privileged: true
