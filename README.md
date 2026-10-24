@@ -6,6 +6,8 @@
   
     docker network create --driver bridge $network          #创建bridge类型的network
   
+    docker network create --driver bridge --subnet 192.168.240.0/24 --gateway 192.168.240.1 $network  #创建指定网段的bridge类型network
+  
     docker network rm $networkID                            #删除network
   
     docker network inspect $networkID                       #查看network信息
